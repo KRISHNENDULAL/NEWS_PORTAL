@@ -1,122 +1,155 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Navbar() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+      <Link className="navbar-brand" to="/">
+        NewsPortal
+      </Link>
 
-      <div className="ticks"></div>
+      <div className="navbar-nav">
+        <Link className="nav-link" to="/">
+          Home
+        </Link>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <Link className="nav-link" to="/category/technology">
+          Technology
+        </Link>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <Link className="nav-link" to="/admin/login">
+          Admin
+        </Link>
+      </div>
+    </nav>
+  );
 }
 
-export default App
+function Home() {
+  return (
+    <div>
+      {/* Hero Section */}
+      <div className="bg-dark text-white text-center p-5">
+        <h1>Welcome to NewsPortal</h1>
+        <p>Latest News Around the World</p>
+      </div>
+
+      {/* News Section */}
+      <div className="container mt-5">
+        <h2 className="mb-4">Latest News</h2>
+
+        <div className="row">
+
+          <div className="col-md-4">
+            <div className="card">
+              <img
+                src="https://images.unsplash.com/photo-1495020689067-958852a7765e"
+                className="card-img-top"
+                alt="news"
+              />
+
+              <div className="card-body">
+                <h5 className="card-title">Technology News</h5>
+
+                <p className="card-text">
+                  Latest updates from technology world.
+                </p>
+
+                <button className="btn btn-dark">
+                  Read More
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-4">
+            <div className="card">
+              <img
+                src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a"
+                className="card-img-top"
+                alt="news"
+              />
+
+              <div className="card-body">
+                <h5 className="card-title">Sports News</h5>
+
+                <p className="card-text">
+                  Latest updates from sports world.
+                </p>
+
+                <button className="btn btn-dark">
+                  Read More
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-4">
+            <div className="card">
+              <img
+                src="https://images.unsplash.com/photo-1504711434969-e33886168f5c"
+                className="card-img-top"
+                alt="news"
+              />
+
+              <div className="card-body">
+                <h5 className="card-title">Political News</h5>
+
+                <p className="card-text">
+                  Latest political updates and headlines.
+                </p>
+
+                <button className="btn btn-dark">
+                  Read More
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Category() {
+  return (
+    <div className="container mt-5">
+      <h1>Category Page</h1>
+    </div>
+  );
+}
+
+function SingleNews() {
+  return (
+    <div className="container mt-5">
+      <h1>Single News Page</h1>
+    </div>
+  );
+}
+
+function Login() {
+  return (
+    <div className="container mt-5">
+      <h1>Admin Login</h1>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/category/:name" element={<Category />} />
+        <Route path="/news/:id" element={<SingleNews />} />
+        <Route path="/admin/login" element={<Login />} />
+      </Routes>
+
+    </BrowserRouter>
+  );
+}
+
+export default App;
