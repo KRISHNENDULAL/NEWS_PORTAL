@@ -20,7 +20,8 @@ function HeroSection() {
               alt="hero"
               className="card-img-top"
               style={{
-                height: "450px",
+                height: "100%",
+                maxHeight: "450px",
                 objectFit: "cover",
               }}
             />
@@ -60,7 +61,7 @@ function HeroSection() {
                 alt="news"
                 className="card-img-top"
                 style={{
-                  height: "180px",
+                  height: "220px",
                   objectFit: "cover",
                 }}
               />

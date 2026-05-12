@@ -1,50 +1,142 @@
-import newsData from "../data/newsData";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function ManageNews() {
+
+  const [news, setNews] = useState([]);
+  const [filter, setFilter] = useState("All");
+
+  useEffect(() => {
+
+    fetchNews();
+
+  }, []);
+
+  const fetchNews = async () => {
+
+    try {
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/news/all`
+      );
+
+      setNews(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  const deleteNews = async (id) => {
+
+    try {
+
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/news/delete/${id}`
+      );
+
+      alert("News Deleted Successfully");
+
+      fetchNews();
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
   return (
     <div className="container mt-5">
 
-      <h2 className="mb-4">
-        Manage News
-      </h2>
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
 
-      <ul className="nav nav-tabs mb-4">
+        <h2 className="fw-bold">
+          Manage News
+        </h2>
 
-        <li className="nav-item">
-          <button className="nav-link active">
-            All
+        <div className="d-flex flex-wrap gap-2">
+
+          <Link
+            to="/admin/create-news"
+            className="btn btn-success"
+          >
+            Add News
+          </Link>
+
+          <Link
+            to="/admin/profile"
+            className="btn btn-info text-white"
+          >
+            Profile
+          </Link>
+
+          <Link
+            to="/admin/change-password"
+            className="btn btn-primary"
+          >
+            Change Password
+          </Link>
+
+          <button
+            className="btn btn-dark"
+            onClick={() => {
+              localStorage.removeItem("admin");
+              window.location.href = "/admin";
+            }}
+          >
+            Logout
           </button>
-        </li>
 
-        <li className="nav-item">
-          <button className="nav-link">
-            Draft
-          </button>
-        </li>
+        </div>
 
-        <li className="nav-item">
-          <button className="nav-link">
-            Scheduled
-          </button>
-        </li>
+      </div>
 
-        <li className="nav-item">
-          <button className="nav-link">
-            In-review
-          </button>
-        </li>
+      <div className="mb-3 d-flex flex-wrap gap-2">
 
-        <li className="nav-item">
-          <button className="nav-link">
-            Published
-          </button>
-        </li>
+        <button
+          className="btn btn-dark me-2"
+          onClick={() => setFilter("All")}
+        >
+          All
+        </button>
 
-      </ul>
+        <button
+          className="btn btn-secondary me-2"
+          onClick={() => setFilter("Draft")}
+        >
+          Draft
+        </button>
+
+        <button
+          className="btn btn-secondary me-2"
+          onClick={() => setFilter("Scheduled")}
+        >
+          Scheduled
+        </button>
+
+        <button
+          className="btn btn-secondary me-2"
+          onClick={() => setFilter("In-review")}
+        >
+          In-review
+        </button>
+
+        <button
+          className="btn btn-secondary"
+          onClick={() => setFilter("Published")}
+        >
+          Published
+        </button>
+
+      </div>
 
       <div className="table-responsive">
 
-        <table className="table table-bordered">
+        <table className="table table-bordered align-middle">
 
           <thead className="table-dark">
 
@@ -59,29 +151,43 @@ function ManageNews() {
 
           <tbody>
 
-            {newsData.map((news) => (
+            {news
+              .filter((item) =>
+                filter === "All"
+                  ? true
+                  : item.status === filter
+              )
+              .map((item) => (
 
-              <tr key={news.id}>
+                <tr key={item._id}>
 
-                <td>{news.title}</td>
-                <td>{news.category}</td>
-                <td>{news.status}</td>
+                  <td>{item.title}</td>
 
-                <td>
+                  <td>{item.category}</td>
 
-                  <button className="btn btn-sm btn-primary me-2">
-                    Edit
-                  </button>
+                  <td>{item.status}</td>
 
-                  <button className="btn btn-sm btn-danger">
-                    Delete
-                  </button>
+                  <td>
 
-                </td>
+                    <Link
+                      to={`/admin/edit-news/${item._id}`}
+                      className="btn btn-primary btn-sm me-2"
+                    >
+                      Edit
+                    </Link>
 
-              </tr>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => deleteNews(item._id)}
+                    >
+                      Delete
+                    </button>
 
-            ))}
+                  </td>
+
+                </tr>
+
+              ))}
 
           </tbody>
 

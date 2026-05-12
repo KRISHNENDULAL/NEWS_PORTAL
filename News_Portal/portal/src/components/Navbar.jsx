@@ -1,45 +1,72 @@
 import { Link } from "react-router-dom";
 
 function Navbar() {
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-black px-4 py-3">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
 
-      <Link className="navbar-brand fw-bold fs-3" to="/">
-        BBC NEWS
-      </Link>
+      <div className="container">
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        <Link
+          className="navbar-brand fw-bold"
+          to="/"
+        >
+          BBC NEWS
+        </Link>
 
-      <div className="collapse navbar-collapse" id="navbarNav">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-        <div className="navbar-nav ms-auto">
+        <div
+          className="collapse navbar-collapse"
+          id="navbarNav"
+        >
 
-          <Link className="nav-link text-white" to="/">
-            Home
-          </Link>
+          <ul className="navbar-nav ms-auto">
 
-          <Link className="nav-link text-white" to="/category/Technology">
-            Technology
-          </Link>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/"
+              >
+                Home
+              </Link>
+            </li>
 
-          <Link className="nav-link text-white" to="/category/Sports">
-            Sports
-          </Link>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/category/Sports"
+              >
+                Sports
+              </Link>
+            </li>
 
-          <Link className="nav-link text-white" to="/category/Politics">
-            Politics
-          </Link>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/category/Technology"
+              >
+                Technology
+              </Link>
+            </li>
 
-          <Link className="nav-link text-warning" to="/admin/login">
-            Admin
-          </Link>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/admin"
+              >
+                Admin
+              </Link>
+            </li>
+
+          </ul>
 
         </div>
 

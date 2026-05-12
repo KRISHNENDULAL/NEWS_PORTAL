@@ -5,7 +5,7 @@ function Profile() {
       <div className="card p-4 shadow">
 
         <h2 className="mb-4">
-          My Profile
+          Admin Profile
         </h2>
 
         <p>

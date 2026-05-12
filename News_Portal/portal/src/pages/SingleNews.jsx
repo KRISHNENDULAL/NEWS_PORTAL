@@ -1,18 +1,53 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import newsData from "../data/newsData";
+import axios from "axios";
 
 function SingleNews() {
 
   const { id } = useParams();
 
-  const news = newsData.find(
-    (item) => item.id === parseInt(id)
-  );
+  const [news, setNews] = useState(null);
+
+  useEffect(() => {
+
+    fetchSingleNews();
+
+  }, []);
+
+  const fetchSingleNews = async () => {
+
+    try {
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/news/all`
+      );
+
+      let selectedNews = response.data.find(
+        (item) => item._id === id
+      );
+
+      if (!selectedNews) {
+
+        selectedNews = newsData.find(
+          (item) => item.id.toString() === id
+        );
+
+      }
+
+      setNews(selectedNews);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   if (!news) {
     return (
       <div className="container mt-5">
-        <h2>News Not Found</h2>
+        <h2>Loading...</h2>
       </div>
     );
   }
@@ -39,7 +74,7 @@ function SingleNews() {
         Category: {news.category}
       </h5>
 
-      <p style={{ fontSize: "18px" }}>
+      <p style={{ fontSize: "18px", lineHeight: "1.8" }}>
         {news.content}
       </p>
 

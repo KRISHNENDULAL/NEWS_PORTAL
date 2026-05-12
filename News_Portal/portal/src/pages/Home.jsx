@@ -1,16 +1,41 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import HeroSection from "../components/HeroSection";
 import NewsCard from "../components/NewsCard";
 
-import newsData from "../data/newsData";
-
 function Home() {
+
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+
+    fetchNews();
+
+  }, []);
+
+  const fetchNews = async () => {
+
+    try {
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/news/all`
+      );
+
+      setNews(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
   return (
     <div>
 
-      {/* Hero Section */}
       <HeroSection />
 
-      {/* General News Section */}
       <div className="container mt-5">
 
         <h2 className="mb-4 fw-bold">
@@ -19,13 +44,15 @@ function Home() {
 
         <div className="row">
 
-          {newsData.map((news) => (
+          {news.map((item) => (
 
             <div
               className="col-md-4 mb-4"
-              key={news.id}
+              key={item._id}
             >
-              <NewsCard news={news} />
+
+              <NewsCard news={item} />
+
             </div>
 
           ))}

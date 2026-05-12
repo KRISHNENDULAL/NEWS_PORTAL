@@ -1,31 +1,62 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import newsData from "../data/newsData";
+import axios from "axios";
+
 import NewsCard from "../components/NewsCard";
 
-function Category() {
+function CategoryPage() {
 
-  const { name } = useParams();
+  const { category } = useParams();
 
-  const filteredNews = newsData.filter(
-    (news) => news.category === name
-  );
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+
+    fetchCategoryNews();
+
+  }, [category]);
+
+  const fetchCategoryNews = async () => {
+
+    try {
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/news/all`
+      );
+
+      const filteredNews = response.data.filter(
+        (item) =>
+          item.category.toLowerCase() ===
+          category.toLowerCase()
+      );
+
+      setNews(filteredNews);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   return (
     <div className="container mt-5">
 
       <h2 className="mb-4 fw-bold">
-        {name} News
+        {category} News
       </h2>
 
       <div className="row">
 
-        {filteredNews.map((news) => (
+        {news.map((item) => (
 
           <div
             className="col-md-4 mb-4"
-            key={news.id}
+            key={item._id}
           >
-            <NewsCard news={news} />
+
+            <NewsCard news={item} />
+
           </div>
 
         ))}
@@ -36,4 +67,4 @@ function Category() {
   );
 }
 
-export default Category;
+export default CategoryPage;

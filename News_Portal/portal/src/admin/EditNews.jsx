@@ -1,15 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function CreateNews() {
+function EditNews() {
+
+  const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     title: "",
     category: "",
     image: "",
     content: "",
-    status: "Draft",
+    status: "",
   });
+
+  useEffect(() => {
+
+    fetchSingleNews();
+
+  }, []);
+
+  const fetchSingleNews = async () => {
+
+    try {
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/news/all`
+      );
+
+      const selectedNews = response.data.find(
+        (item) => item._id === id
+      );
+
+      setFormData(selectedNews);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   const handleChange = (e) => {
 
@@ -26,26 +58,18 @@ function CreateNews() {
 
     try {
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/news/create`,
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/news/update/${id}`,
         formData
       );
 
-      alert(response.data.message);
+      alert("News Updated");
 
-      setFormData({
-        title: "",
-        category: "",
-        image: "",
-        content: "",
-        status: "Draft",
-      });
+      navigate("/admin/manage-news");
 
     } catch (error) {
 
       console.log(error);
-
-      alert("Error creating news");
 
     }
   };
@@ -56,7 +80,7 @@ function CreateNews() {
       <div className="card p-3 p-md-4 shadow">
 
         <h2 className="mb-4">
-          Create News
+          Edit News
         </h2>
 
         <form onSubmit={handleSubmit}>
@@ -64,7 +88,6 @@ function CreateNews() {
           <input
             type="text"
             name="title"
-            placeholder="News Title"
             className="form-control mb-3"
             value={formData.title}
             onChange={handleChange}
@@ -73,7 +96,6 @@ function CreateNews() {
           <input
             type="text"
             name="category"
-            placeholder="Category"
             className="form-control mb-3"
             value={formData.category}
             onChange={handleChange}
@@ -82,7 +104,6 @@ function CreateNews() {
           <input
             type="text"
             name="image"
-            placeholder="Image URL"
             className="form-control mb-3"
             value={formData.image}
             onChange={handleChange}
@@ -91,7 +112,6 @@ function CreateNews() {
           <textarea
             rows="5"
             name="content"
-            placeholder="News Content"
             className="form-control mb-3"
             value={formData.content}
             onChange={handleChange}
@@ -112,7 +132,7 @@ function CreateNews() {
           </select>
 
           <button className="btn btn-dark">
-            Publish News
+            Update News
           </button>
 
         </form>
@@ -123,4 +143,4 @@ function CreateNews() {
   );
 }
 
-export default CreateNews;
+export default EditNews;
