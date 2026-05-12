@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ManageNews() {
+
+  const navigate = useNavigate();
 
   const [news, setNews] = useState([]);
   const [filter, setFilter] = useState("All");
@@ -85,7 +88,7 @@ function ManageNews() {
             className="btn btn-dark"
             onClick={() => {
               localStorage.removeItem("admin");
-              window.location.href = "/admin";
+              navigate("/admin");
             }}
           >
             Logout
